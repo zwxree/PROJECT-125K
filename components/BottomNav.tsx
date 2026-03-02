@@ -1,0 +1,75 @@
+"use client";
+
+import React from 'react';
+import { motion } from 'motion/react';
+import { Home, Droplet, Activity, User } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { usePathname, useRouter } from 'next/navigation';
+import { useStore } from '@/store/useStore';
+
+export const BottomNav = () => {
+  const pathname = usePathname();
+  const router = useRouter();
+  const { hapticsEnabled, isNavHidden } = useStore();
+
+  const navItems = [
+    { name: 'Home', icon: Home, path: '/dashboard' },
+    { name: 'Refill', icon: Droplet, path: '/refill' },
+    { name: 'Monitor', icon: Activity, path: '/monitor' },
+    { name: 'Profile', icon: User, path: '/profile' },
+  ];
+
+  const handleNav = (path: string) => {
+    if (hapticsEnabled && typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(30);
+    }
+    router.push(path);
+  };
+
+  if (pathname === '/') return null; // Don't show on splash screen
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 z-50 pb-safe pointer-events-none">
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{ y: isNavHidden ? 150 : 0 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+        className={cn(
+          "mx-4 mb-6 flex items-center justify-around rounded-full p-4 pointer-events-auto",
+          "bg-white/40 backdrop-blur-[40px]",
+          "border border-white/50",
+          "shadow-[0_8px_32px_rgba(0,0,0,0.04),inset_0_2px_4px_rgba(255,255,255,0.8),inset_2px_0_4px_rgba(255,255,255,0.8)]"
+        )}
+      >
+        {navItems.map((item) => {
+          const isActive = pathname === item.path;
+          return (
+            <button
+              key={item.name}
+              onClick={() => handleNav(item.path)}
+              className="relative flex flex-col items-center justify-center w-16 h-12"
+            >
+              <motion.div
+                whileTap={{ scale: 0.8 }}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-1",
+                  isActive ? "text-[#1A1A1A]" : "text-[#1A1A1A]/40"
+                )}
+              >
+                <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
+                <span className="text-[10px] font-medium">{item.name}</span>
+              </motion.div>
+              {isActive && (
+                <motion.div
+                  layoutId="nav-indicator"
+                  className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-[#1A1A1A]"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </motion.div>
+    </div>
+  );
+};
