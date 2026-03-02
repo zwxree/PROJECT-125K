@@ -82,7 +82,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`flex flex-col min-h-screen p-6 pt-12 space-y-6 transition-colors duration-1000 ${isReleasing ? 'bg-[#84FAB0]/10' : ''}`}>
+    <div className={`flex flex-col min-h-screen p-6 pt-12 space-y-6 transition-colors duration-1000 relative z-10`}>
       {/* Top Status Bar */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
@@ -93,12 +93,12 @@ export default function DashboardPage() {
           <span className="font-bold tracking-tight text-xl text-[#1A1A1A]">Project 125k</span>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 bg-white/40 px-3 py-1.5 rounded-full border border-white/60 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_4px_rgba(255,255,255,0.8)]">
-            <div className={`w-2 h-2 rounded-full ${isReleasing ? 'bg-[#DE6262] shadow-[0_0_8px_#DE6262] animate-pulse' : 'bg-[#34D399]'}`} />
-            <span className="text-xs font-medium text-[#1A1A1A]">{isReleasing ? 'Active' : 'Idle'}</span>
+          <div className="flex items-center gap-1.5 bg-white/30 px-3 py-1.5 rounded-full border border-white/50 backdrop-blur-md shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.05)]">
+            <div className={`w-2 h-2 rounded-full ${isReleasing ? 'bg-purple-500 shadow-[0_0_8px_#A855F7] animate-pulse' : 'bg-teal-400'}`} />
+            <span className="text-xs font-medium text-gray-800">{isReleasing ? 'Active' : 'Idle'}</span>
           </div>
-          <div className="w-10 h-10 rounded-full bg-white/40 backdrop-blur-md border border-white/60 shadow-[0_4px_12px_rgba(0,0,0,0.05),inset_0_2px_4px_rgba(255,255,255,0.8)] flex items-center justify-center overflow-hidden">
-            <User className="w-5 h-5 text-[#1A1A1A]/70" />
+          <div className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md border border-white/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
+            <User className="w-5 h-5 text-gray-700" />
           </div>
         </div>
       </motion.div>
@@ -138,14 +138,14 @@ export default function DashboardPage() {
         transition={{ delay: 0.3 }}
         className="flex justify-center py-4"
       >
-        <div className={`relative w-48 h-48 rounded-full border flex flex-col items-center justify-center bg-white/40 backdrop-blur-[40px] transition-all duration-500 ${isReleasing ? 'border-[#DE6262]/50 shadow-[0_8px_32px_rgba(222,98,98,0.2),inset_0_2px_4px_rgba(255,255,255,0.8),inset_2px_0_4px_rgba(255,255,255,0.8)]' : 'border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.04),inset_0_2px_4px_rgba(255,255,255,0.8),inset_2px_0_4px_rgba(255,255,255,0.8)]'}`}>
-          <div className={`absolute inset-0 rounded-full border-t-2 animate-spin ${isReleasing ? 'border-[#DE6262]' : 'border-[#1A1A1A]/20'}`} style={{ animationDuration: isReleasing ? '2s' : '4s' }} />
-          <Wifi className={`w-6 h-6 mb-2 ${isReleasing ? 'text-[#DE6262]' : 'text-[#1A1A1A]/50'}`} />
-          <span className="text-sm font-medium text-[#1A1A1A]">Patch Connected</span>
-          <div className="flex items-center gap-2 mt-2 text-xs text-[#1A1A1A]/60">
-            <Battery className="w-3 h-3 text-[#34D399]" /> {battery}%
+        <div className={`relative w-48 h-48 rounded-full border flex flex-col items-center justify-center bg-white/20 backdrop-blur-xl transition-all duration-500 ${isReleasing ? 'border-purple-300/50 shadow-[0_20px_40px_rgba(168,85,247,0.15),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]' : 'border-white/40 shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]'}`}>
+          <div className={`absolute inset-0 rounded-full border-t-2 animate-spin ${isReleasing ? 'border-purple-500' : 'border-gray-400/30'}`} style={{ animationDuration: isReleasing ? '2s' : '4s' }} />
+          <Wifi className={`w-6 h-6 mb-2 ${isReleasing ? 'text-purple-600' : 'text-gray-500'}`} />
+          <span className="text-sm font-medium text-gray-800">Patch Connected</span>
+          <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
+            <Battery className="w-3 h-3 text-teal-500" /> {battery}%
           </div>
-          <span className="text-[10px] mt-1 uppercase tracking-wider font-semibold" style={{ color: isReleasing ? '#DE6262' : '#1A1A1A80' }}>
+          <span className="text-[10px] mt-1 uppercase tracking-wider font-semibold" style={{ color: isReleasing ? '#9333ea' : '#4b5563' }}>
             {isReleasing ? 'Active Drip' : 'Idle'}
           </span>
         </div>
@@ -158,11 +158,11 @@ export default function DashboardPage() {
         transition={{ delay: 0.4 }}
       >
         <GlassCard className="p-5">
-          <h3 className="text-sm font-semibold text-[#1A1A1A]/60 uppercase tracking-wider mb-4">Live Biomarker Feed</h3>
+          <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Live Biomarker Feed</h3>
           <div className="grid grid-cols-2 gap-4">
             {nutrients.map((nutrient) => (
-              <div key={nutrient.id} className="bg-white/40 rounded-2xl p-4 border border-white/60 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)] flex flex-col">
-                <span className="text-xs font-medium text-[#1A1A1A]/60 mb-1">{nutrient.name}</span>
+              <div key={nutrient.id} className="bg-white/30 rounded-2xl p-4 border border-white/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.05)] flex flex-col">
+                <span className="text-xs font-medium text-gray-600 mb-1">{nutrient.name}</span>
                 <div className="flex items-baseline gap-1">
                   <div className="relative overflow-hidden h-8 flex items-center">
                     <AnimatePresence mode="popLayout">
@@ -179,7 +179,7 @@ export default function DashboardPage() {
                       </motion.span>
                     </AnimatePresence>
                   </div>
-                  <span className="text-[10px] text-[#1A1A1A]/40">%</span>
+                  <span className="text-[10px] text-gray-400">%</span>
                 </div>
               </div>
             ))}
@@ -193,14 +193,15 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <GlassCard className="p-5 border-[#A78BFA]/30 bg-gradient-to-br from-white/40 to-[#A78BFA]/10">
-          <div className="flex items-start gap-3">
-            <div className="p-2 rounded-full bg-[#A78BFA]/20 text-[#8B5CF6]">
+        <GlassCard className="p-5 border-white/40 bg-gradient-to-br from-pink-200/30 via-purple-200/30 to-cyan-200/30 relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/10 backdrop-blur-md" />
+          <div className="relative z-10 flex items-start gap-3">
+            <div className="p-2 rounded-full bg-white/40 text-purple-600 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-[#8B5CF6] mb-1">Context-Aware Insight</h3>
-              <p className="text-sm leading-relaxed text-[#1A1A1A]/80">
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">Context-Aware Insight</h3>
+              <p className="text-sm leading-relaxed text-gray-800">
                 {aiMessage}
               </p>
             </div>
@@ -219,7 +220,7 @@ export default function DashboardPage() {
         className="pt-4 pb-8"
       >
         <Button 
-          variant="primary"
+          variant="liquid-purple"
           className="w-full h-16 text-lg rounded-full" 
           onClick={() => setShowBottomSheet(true)}
         >
@@ -244,20 +245,20 @@ export default function DashboardPage() {
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 right-0 z-[100] p-6 pb-12 bg-white/80 backdrop-blur-[40px] border-t border-white/60 rounded-t-[40px] shadow-[0_-10px_40px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,0.8)]"
+              className="fixed bottom-0 left-0 right-0 z-[100] p-6 pb-12 bg-white/40 backdrop-blur-[40px] border-t border-white/60 rounded-t-[40px] shadow-[0_-20px_40px_rgba(0,0,0,0.05),inset_0_2px_4px_rgba(255,255,255,0.9)]"
             >
-              <div className="w-12 h-1.5 bg-[#1A1A1A]/20 rounded-full mx-auto mb-6" />
+              <div className="w-12 h-1.5 bg-gray-400/50 rounded-full mx-auto mb-6" />
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-[#1A1A1A]">Physical Security Lock</h3>
-                <button onClick={() => setShowBottomSheet(false)} className="p-2 bg-black/5 rounded-full">
-                  <X className="w-5 h-5 text-[#1A1A1A]/70" />
+                <h3 className="text-xl font-bold text-gray-900">Physical Security Lock</h3>
+                <button onClick={() => setShowBottomSheet(false)} className="p-2 bg-white/50 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
+                  <X className="w-5 h-5 text-gray-700" />
                 </button>
               </div>
-              <p className="text-[#1A1A1A]/80 mb-8 leading-relaxed">
+              <p className="text-gray-700 mb-8 leading-relaxed">
                 Tap physical secure key to phone to authorize 8-hour microneedle release.
               </p>
               <Button 
-                variant="primary"
+                variant="liquid-teal"
                 className="w-full h-14 text-lg rounded-full"
                 onClick={handleSimulateTap}
               >
@@ -276,28 +277,29 @@ export default function DashboardPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={`fixed inset-0 z-[100] flex flex-col items-center justify-center p-6 backdrop-blur-2xl transition-colors duration-500 ${isAlertSent ? 'bg-white/95' : 'bg-[#DE6262]/95'}`}
+            className={`fixed inset-0 z-[100] flex flex-col items-center justify-center p-6 backdrop-blur-2xl transition-colors duration-500 ${isAlertSent ? 'bg-white/60' : 'bg-red-500/40'}`}
           >
             {isAlertSent ? (
               <div className="flex flex-col items-center justify-between h-full w-full py-20 animate-in fade-in duration-500">
-                <div className="flex flex-col items-center mt-10 text-center">
-                  <div className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center mb-6">
+                <GlassCard className="p-8 flex flex-col items-center text-center max-w-sm w-full border-white/60 shadow-[0_20px_40px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,0.9)]">
+                  <div className="w-24 h-24 rounded-full bg-green-400/20 flex items-center justify-center mb-6 border border-green-400/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)]">
                     <CheckCircle className="w-12 h-12 text-green-600" />
                   </div>
-                  <h2 className="text-3xl font-bold text-[#1A1A1A] mb-4 tracking-tight">Alerts Sent</h2>
-                  <p className="text-lg text-[#1A1A1A]/70 mb-2 max-w-[280px]">
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4 tracking-tight">Alerts Sent</h2>
+                  <p className="text-lg text-gray-700 mb-2 max-w-[280px]">
                     Emergency text alerts with your location have been sent to:
                   </p>
-                  <ul className="text-[#1A1A1A] font-medium mb-6 space-y-2">
+                  <ul className="text-gray-900 font-medium mb-6 space-y-2">
                     <li>• Emergency Contacts</li>
                     <li>• 112 Helpline</li>
                   </ul>
-                  <p className="text-xl text-[#1A1A1A]/90 font-mono tracking-widest">{formatDuration(timeSinceAlert)}</p>
-                </div>
+                  <p className="text-xl text-gray-800 font-mono tracking-widest">{formatDuration(timeSinceAlert)}</p>
+                </GlassCard>
 
-                <div className="flex flex-col items-center gap-16 mb-10">
-                  <button
-                    className="w-full max-w-[240px] h-14 rounded-full bg-[#1A1A1A] text-white flex items-center justify-center shadow-lg hover:bg-[#1A1A1A]/90 transition-all active:scale-95 px-6"
+                <div className="flex flex-col items-center gap-16 mb-10 w-full max-w-sm">
+                  <Button
+                    variant="solid-white"
+                    className="w-full h-14 rounded-full"
                     onClick={() => {
                       if (typeof navigator !== 'undefined' && navigator.vibrate) {
                         navigator.vibrate(50);
@@ -307,7 +309,7 @@ export default function DashboardPage() {
                   >
                     <X className="w-5 h-5 mr-2" />
                     Dismiss Alert
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
@@ -315,21 +317,21 @@ export default function DashboardPage() {
                 <motion.div
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ repeat: Infinity, duration: 1 }}
-                  className="w-40 h-40 rounded-full bg-white/20 flex items-center justify-center mb-8 shadow-[0_0_100px_rgba(255,255,255,0.4)] border border-white/50"
+                  className="w-40 h-40 rounded-full bg-red-500/30 flex items-center justify-center mb-8 shadow-[0_0_100px_rgba(239,68,68,0.6)] border border-red-400/50 backdrop-blur-md"
                 >
                   <Siren className="w-20 h-20 text-white" />
                 </motion.div>
                 
-                <h2 className="text-4xl font-bold text-white mb-4 text-center tracking-tight">HARD FALL DETECTED</h2>
-                <p className="text-white/80 text-center mb-12 text-lg leading-relaxed">
+                <h2 className="text-4xl font-bold text-white mb-4 text-center tracking-tight drop-shadow-md">HARD FALL DETECTED</h2>
+                <p className="text-white/90 text-center mb-12 text-lg leading-relaxed drop-shadow-sm">
                   Biometric sensors indicate a sudden impact. Sending emergency text alerts in <br/>
-                  <span className="text-5xl font-bold text-white mt-4 block">{countdown}</span>
+                  <span className="text-5xl font-bold text-white mt-4 block drop-shadow-lg">{countdown}</span>
                 </p>
 
                 <div className="w-full space-y-4">
                   <Button 
-                    variant="primary"
-                    className="w-full h-16 text-xl rounded-full bg-white text-[#DE6262] shadow-[0_8px_16px_rgba(0,0,0,0.1)] hover:bg-white/90"
+                    variant="solid-white"
+                    className="w-full h-16 text-xl rounded-full text-red-500"
                     onClick={() => {
                       if (typeof navigator !== 'undefined' && navigator.vibrate) {
                         navigator.vibrate([100, 50, 100]);
@@ -342,8 +344,8 @@ export default function DashboardPage() {
                   </Button>
                   
                   <Button 
-                    variant="outline"
-                    className="w-full h-16 text-xl rounded-full border-white/40 text-white hover:bg-white/10"
+                    variant="liquid-glass"
+                    className="w-full h-16 text-xl rounded-full text-white border-white/40"
                     onClick={() => {
                       if (typeof navigator !== 'undefined' && navigator.vibrate) {
                         navigator.vibrate(50);

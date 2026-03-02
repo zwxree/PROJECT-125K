@@ -36,9 +36,9 @@ export const BottomNav = () => {
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className={cn(
           "mx-4 mb-6 flex items-center justify-around rounded-full p-4 pointer-events-auto",
-          "bg-white/40 backdrop-blur-[40px]",
-          "border border-white/50",
-          "shadow-[0_8px_32px_rgba(0,0,0,0.04),inset_0_2px_4px_rgba(255,255,255,0.8),inset_2px_0_4px_rgba(255,255,255,0.8)]"
+          "bg-white/20 backdrop-blur-xl",
+          "border border-white/40",
+          "shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]"
         )}
       >
         {navItems.map((item) => {

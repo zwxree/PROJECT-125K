@@ -17,8 +17,8 @@ const data = [
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
-      <GlassCard className="p-3 rounded-2xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.04),inset_0_2px_4px_rgba(255,255,255,0.8)] backdrop-blur-[40px] bg-white/40">
-        <p className="text-[#1A1A1A]/60 text-xs mb-1 font-semibold uppercase">{label}</p>
+      <GlassCard className="p-3 rounded-2xl border border-white/40 shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)] backdrop-blur-xl bg-white/20">
+        <p className="text-gray-500 text-xs mb-1 font-semibold uppercase">{label}</p>
         {payload.map((entry: any, index: number) => (
           <p key={index} className="text-sm font-bold" style={{ color: entry.color }}>
             {entry.name}: {entry.value}%
@@ -38,7 +38,7 @@ export default function HistoryChart() {
       className="w-full h-[300px] mt-6"
     >
       <GlassCard className="p-5 rounded-[32px] w-full h-full">
-        <h3 className="font-semibold text-lg mb-4 pl-2 text-[#1A1A1A]">7-Day Biomarker Trend</h3>
+        <h3 className="font-semibold text-lg mb-4 pl-2 text-gray-900">7-Day Biomarker Trend</h3>
         <ResponsiveContainer width="100%" height="80%">
           <AreaChart data={data} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
             <defs>
