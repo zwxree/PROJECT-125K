@@ -32,7 +32,7 @@ export default function ProfilePage() {
         navigator.vibrate(100);
       }
       toast.success('Haptic Alerts Enabled', {
-        icon: <Vibrate className="w-4 h-4 text-[#00F5FF]" />,
+        icon: <Vibrate className="w-4 h-4 text-teal-400" />,
       });
     } else {
       toast('Haptic Alerts Disabled', {
@@ -45,7 +45,7 @@ export default function ProfilePage() {
     toggleNotifications();
     if (!notificationsEnabled) {
       toast.success('Push Notifications Enabled', {
-        icon: <Bell className="w-4 h-4 text-[#00F5FF]" />,
+        icon: <Bell className="w-4 h-4 text-teal-400" />,
       });
     } else {
       toast('Push Notifications Disabled', {
@@ -57,7 +57,7 @@ export default function ProfilePage() {
   const handleToggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
     toast(`Switched to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`, {
-      icon: theme === 'dark' ? <Sun className="w-4 h-4 text-[#FBBF24]" /> : <Moon className="w-4 h-4 text-[#A78BFA]" />,
+      icon: theme === 'dark' ? <Sun className="w-4 h-4 text-yellow-400" /> : <Moon className="w-4 h-4 text-purple-400" />,
     });
   };
 
@@ -65,7 +65,7 @@ export default function ProfilePage() {
     disconnectPatch();
     router.push('/');
     toast('Patch Disconnected', {
-      icon: <LogOut className="w-4 h-4 text-[#F87171]" />,
+      icon: <LogOut className="w-4 h-4 text-red-400" />,
     });
   };
 
@@ -76,7 +76,7 @@ export default function ProfilePage() {
     emergencyStop();
     toast.error('Emergency Stop Activated', {
       description: 'Patch pores crystallized. Delivery halted.',
-      icon: <ShieldAlert className="w-4 h-4 text-[#F87171]" />,
+      icon: <ShieldAlert className="w-4 h-4 text-red-400" />,
     });
   };
 
@@ -84,7 +84,7 @@ export default function ProfilePage() {
     toggleFallDetection();
     if (!fallDetectionEnabled) {
       toast.success('Fall Detection Enabled', {
-        icon: <Activity className="w-4 h-4 text-[#FBBF24]" />,
+        icon: <Activity className="w-4 h-4 text-yellow-400" />,
       });
     } else {
       toast('Fall Detection Disabled', {
@@ -113,7 +113,7 @@ export default function ProfilePage() {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center gap-4 mb-4"
       >
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Settings & Safety</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-100">Settings & Safety</h1>
       </motion.div>
 
       {/* Profile Card */}
@@ -123,12 +123,12 @@ export default function ProfilePage() {
         transition={{ delay: 0.1 }}
       >
         <GlassCard className="p-6 flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-400 to-teal-400 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.4)] border-2 border-white/50">
+          <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-500 to-teal-400 flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.4)] border-2 border-white/10">
             <User className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-900 tracking-tight">{profile.name}</h2>
-            <p className="text-sm text-gray-600">ABHA ID: {profile.abhaId}</p>
+            <h2 className="text-xl font-bold text-slate-100 tracking-tight">{profile.name}</h2>
+            <p className="text-sm text-slate-400">ABHA ID: {profile.abhaId}</p>
           </div>
         </GlassCard>
       </motion.div>
@@ -140,45 +140,45 @@ export default function ProfilePage() {
         transition={{ delay: 0.12 }}
         className="space-y-4"
       >
-        <h3 className="text-sm font-semibold text-purple-600 uppercase tracking-wider ml-2">Personal Details</h3>
+        <h3 className="text-sm font-semibold text-purple-400 uppercase tracking-wider ml-2">Personal Details</h3>
         
         <GlassCard className="p-5 flex flex-col gap-4">
-          <div className="grid grid-cols-3 gap-4 text-center pb-4 border-b border-black/5">
+          <div className="grid grid-cols-3 gap-4 text-center pb-4 border-b border-white/10">
             <div>
-              <p className="text-xs text-gray-500 mb-1">Height</p>
-              <p className="font-medium text-gray-900">{profile.height}</p>
+              <p className="text-xs text-slate-400 mb-1">Height</p>
+              <p className="font-medium text-slate-100">{profile.height}</p>
             </div>
-            <div className="border-x border-black/5">
-              <p className="text-xs text-gray-500 mb-1">Weight</p>
-              <p className="font-medium text-gray-900">{profile.weight}</p>
+            <div className="border-x border-white/10">
+              <p className="text-xs text-slate-400 mb-1">Weight</p>
+              <p className="font-medium text-slate-100">{profile.weight}</p>
             </div>
             <div>
-              <p className="text-xs text-gray-500 mb-1">Blood</p>
-              <p className="font-medium text-red-500">{profile.bloodGroup}</p>
+              <p className="text-xs text-slate-400 mb-1">Blood</p>
+              <p className="font-medium text-red-400">{profile.bloodGroup}</p>
             </div>
           </div>
 
           <div className="space-y-3 pt-2">
-            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Emergency Info</h4>
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Emergency Info</h4>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Allergies</span>
-              <span className="font-bold text-red-500">{profile.allergies}</span>
+              <span className="text-sm text-slate-400">Allergies</span>
+              <span className="font-bold text-red-400">{profile.allergies}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">Contact</span>
-              <span className="font-bold text-gray-900">{profile.contact}</span>
+              <span className="text-sm text-slate-400">Contact</span>
+              <span className="font-bold text-slate-100">{profile.contact}</span>
             </div>
           </div>
 
-          <div className="space-y-3 pt-4 border-t border-black/5">
-            <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Medical Profile</h4>
+          <div className="space-y-3 pt-4 border-t border-white/10">
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Medical Profile</h4>
             <div className="flex justify-between items-start gap-4">
-              <span className="text-sm text-gray-600 whitespace-nowrap">History</span>
-              <span className="font-medium text-gray-900 text-right text-sm leading-tight">{profile.history}</span>
+              <span className="text-sm text-slate-400 whitespace-nowrap">History</span>
+              <span className="font-medium text-slate-100 text-right text-sm leading-tight">{profile.history}</span>
             </div>
             <div className="flex justify-between items-start gap-4">
-              <span className="text-sm text-gray-600 whitespace-nowrap">Meds</span>
-              <span className="font-medium text-gray-900 text-right text-sm leading-tight">{profile.meds}</span>
+              <span className="text-sm text-slate-400 whitespace-nowrap">Meds</span>
+              <span className="font-medium text-slate-100 text-right text-sm leading-tight">{profile.meds}</span>
             </div>
           </div>
         </GlassCard>
@@ -191,16 +191,16 @@ export default function ProfilePage() {
         transition={{ delay: 0.15 }}
         className="space-y-4"
       >
-        <h3 className="text-sm font-semibold text-red-500 uppercase tracking-wider ml-2">Safety Controls</h3>
+        <h3 className="text-sm font-semibold text-red-400 uppercase tracking-wider ml-2">Safety Controls</h3>
         
         <GlassCard className="p-5 border-red-500/30 bg-red-500/10">
           <div className="flex flex-col gap-4">
             <div>
-              <h4 className="font-semibold text-gray-900 mb-1 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-red-500" />
+              <h4 className="font-semibold text-slate-100 mb-1 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-red-400" />
                 Emergency Stop
               </h4>
-              <p className="text-xs text-gray-700 leading-relaxed">
+              <p className="text-xs text-slate-300 leading-relaxed">
                 Instantly crystallize patch pores to halt delivery. Use only if experiencing adverse reactions.
               </p>
             </div>
@@ -214,7 +214,7 @@ export default function ProfilePage() {
             </Button>
             <Button 
               variant="liquid-glass" 
-              className="w-full h-14 text-lg rounded-full text-yellow-600"
+              className="w-full h-14 text-lg rounded-full text-yellow-500"
               onClick={handleSimulateFall}
             >
               <Siren className="w-5 h-5 mr-2" />
@@ -231,20 +231,20 @@ export default function ProfilePage() {
         transition={{ delay: 0.2 }}
         className="space-y-4"
       >
-        <h3 className="text-sm font-semibold text-gray-800 uppercase tracking-wider ml-2">Preferences</h3>
+        <h3 className="text-sm font-semibold text-slate-300 uppercase tracking-wider ml-2">Preferences</h3>
         
-        <GlassCard className="divide-y divide-black/5">
+        <GlassCard className="divide-y divide-white/10">
           {/* Theme Toggle */}
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-white/40 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]">
-                {theme === 'dark' ? <Moon className="w-4 h-4 text-purple-500" /> : <Sun className="w-4 h-4 text-yellow-500" />}
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
+                {theme === 'dark' ? <Moon className="w-4 h-4 text-purple-400" /> : <Sun className="w-4 h-4 text-yellow-400" />}
               </div>
-              <span className="font-medium text-gray-900">Appearance</span>
+              <span className="font-medium text-slate-100">Appearance</span>
             </div>
             <button 
               onClick={handleToggleTheme}
-              className="relative inline-flex h-6 w-11 items-center rounded-full bg-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white"
+              className="relative inline-flex h-6 w-11 items-center rounded-full bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900"
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${theme === 'dark' ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
@@ -253,14 +253,14 @@ export default function ProfilePage() {
           {/* Notifications Toggle */}
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-white/40 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]">
-                <Bell className="w-4 h-4 text-purple-500" />
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
+                <Bell className="w-4 h-4 text-purple-400" />
               </div>
-              <span className="font-medium text-gray-900">Push Notifications</span>
+              <span className="font-medium text-slate-100">Push Notifications</span>
             </div>
             <button 
               onClick={handleToggleNotifications}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white ${notificationsEnabled ? 'bg-purple-500' : 'bg-black/5'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900 ${notificationsEnabled ? 'bg-purple-500' : 'bg-white/10'}`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${notificationsEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
@@ -269,14 +269,14 @@ export default function ProfilePage() {
           {/* Fall Detection Toggle */}
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-white/40 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]">
-                <Activity className="w-4 h-4 text-yellow-500" />
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
+                <Activity className="w-4 h-4 text-yellow-400" />
               </div>
-              <span className="font-medium text-gray-900">Fall Detection</span>
+              <span className="font-medium text-slate-100">Fall Detection</span>
             </div>
             <button 
               onClick={handleToggleFallDetection}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white ${fallDetectionEnabled ? 'bg-yellow-500' : 'bg-black/5'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900 ${fallDetectionEnabled ? 'bg-yellow-500' : 'bg-white/10'}`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${fallDetectionEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
@@ -285,14 +285,14 @@ export default function ProfilePage() {
           {/* Haptics Toggle */}
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-white/40 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]">
-                <Vibrate className="w-4 h-4 text-teal-500" />
+              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]">
+                <Vibrate className="w-4 h-4 text-teal-400" />
               </div>
-              <span className="font-medium text-gray-900">Haptic Feedback</span>
+              <span className="font-medium text-slate-100">Haptic Feedback</span>
             </div>
             <button 
               onClick={handleToggleHaptics}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-white ${hapticsEnabled ? 'bg-teal-500' : 'bg-black/5'}`}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-slate-900 ${hapticsEnabled ? 'bg-teal-500' : 'bg-white/10'}`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white shadow-sm transition-transform ${hapticsEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
             </button>
@@ -305,11 +305,11 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="mt-8 pt-4 border-t border-black/5"
+        className="mt-8 pt-4 border-t border-white/10"
       >
         <Button 
           variant="liquid-glass" 
-          className="w-full h-14 text-lg rounded-full text-gray-600"
+          className="w-full h-14 text-lg rounded-full text-slate-300"
           onClick={handleDisconnect}
         >
           <LogOut className="w-5 h-5 mr-2" />

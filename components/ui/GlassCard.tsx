@@ -15,9 +15,9 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         ref={ref}
         className={cn(
           "relative overflow-hidden rounded-3xl",
-          "bg-white/10 backdrop-blur-xl",
-          "border border-white/40",
-          "shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]",
+          "bg-white/5 backdrop-blur-2xl",
+          "border border-white/10",
+          "shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]",
           className
         )}
         whileTap={interactive ? { scale: 0.98 } : undefined}

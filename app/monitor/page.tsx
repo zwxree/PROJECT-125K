@@ -82,7 +82,7 @@ export default function MonitorPage() {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center gap-4 mb-8"
       >
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Live Monitor</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-white">Live Monitor</h1>
       </motion.div>
 
       <div className="flex-1 flex flex-col items-center justify-center relative">
@@ -123,9 +123,9 @@ export default function MonitorPage() {
                 ))}
                 
                 {/* Center Patch */}
-                <GlassCard className="w-32 h-32 rounded-full flex items-center justify-center border-2 border-white/50 shadow-[0_20px_50px_rgba(168,85,247,0.2),inset_0_2px_4px_rgba(255,255,255,0.9)] z-10 relative overflow-hidden bg-white/20 backdrop-blur-xl">
-                  <div className="absolute inset-0 bg-gradient-to-b from-purple-400/20 to-transparent" />
-                  <Activity className="w-12 h-12 text-purple-500" />
+                <GlassCard className="w-32 h-32 rounded-full flex items-center justify-center border-2 border-white/10 shadow-[0_8px_32px_rgba(168,85,247,0.3),inset_0_1px_0_rgba(255,255,255,0.1)] z-10 relative overflow-hidden bg-white/5 backdrop-blur-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-b from-purple-500/20 to-transparent" />
+                  <Activity className="w-12 h-12 text-purple-400" />
                   
                   {/* Liquid level inside patch */}
                   <motion.div 
@@ -160,22 +160,22 @@ export default function MonitorPage() {
               </div>
 
               {/* Real-time countdown + percentage */}
-              <GlassCard className="w-full p-6 text-center border-white/40 bg-white/20 backdrop-blur-xl shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]">
-                <h2 className="text-5xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-teal-400 mb-2">
+              <GlassCard className="w-full p-6 text-center border-white/10 bg-white/5 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]">
+                <h2 className="text-5xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-teal-300 mb-2">
                   {releaseProgress}%
                 </h2>
-                <p className="text-sm text-purple-600 font-medium uppercase tracking-widest mb-6">Absorbed</p>
+                <p className="text-sm text-purple-400 font-medium uppercase tracking-widest mb-6">Absorbed</p>
                 
-                <div className="flex items-center justify-center gap-2 text-gray-600">
+                <div className="flex items-center justify-center gap-2 text-gray-400">
                   <Clock className="w-4 h-4" />
                   <span className="font-mono text-lg">{timeLeft}</span>
                   <span className="text-xs uppercase ml-1">Remaining</span>
                 </div>
                 
                 {/* Progress Bar */}
-                <div className="w-full h-3 bg-black/5 shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] rounded-full mt-6 overflow-hidden">
+                <div className="w-full h-3 bg-white/10 shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)] rounded-full mt-6 overflow-hidden">
                   <motion.div 
-                    className="h-full bg-gradient-to-r from-purple-400 to-teal-400 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]"
+                    className="h-full bg-gradient-to-r from-purple-500 to-teal-400 rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]"
                     style={{ width: `${releaseProgress}%` }}
                     transition={{ type: "spring", stiffness: 50 }}
                   />
@@ -189,11 +189,11 @@ export default function MonitorPage() {
               animate={{ opacity: 1, scale: 1 }}
               className="w-full max-w-sm flex flex-col items-center justify-center text-center z-10"
             >
-              <div className="w-32 h-32 rounded-full bg-white/40 flex items-center justify-center mb-8 shadow-[0_20px_50px_rgba(45,212,191,0.2),inset_0_2px_4px_rgba(255,255,255,0.9)] border border-white/60 backdrop-blur-xl">
-                <CheckCircle className="w-16 h-16 text-teal-500" />
+              <div className="w-32 h-32 rounded-full bg-white/5 flex items-center justify-center mb-8 shadow-[0_8px_32px_rgba(45,212,191,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] border border-white/10 backdrop-blur-2xl">
+                <CheckCircle className="w-16 h-16 text-teal-400" />
               </div>
-              <h2 className="text-4xl font-bold mb-4 text-gray-900 tracking-tight">Release Complete</h2>
-              <p className="text-lg text-gray-600 mb-12">
+              <h2 className="text-4xl font-bold mb-4 text-white tracking-tight">Release Complete</h2>
+              <p className="text-lg text-gray-400 mb-12">
                 Your nutrient levels have been optimally restored.
               </p>
               <Button 

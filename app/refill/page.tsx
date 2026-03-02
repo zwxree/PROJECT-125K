@@ -71,9 +71,9 @@ export default function RefillPage() {
         className="flex items-center gap-4 mb-8"
       >
         <Button variant="liquid-glass" size="icon" onClick={() => router.back()} className="rounded-full">
-          <ArrowLeft className="w-5 h-5 text-gray-800" />
+          <ArrowLeft className="w-5 h-5 text-slate-100" />
         </Button>
-        <h1 className="text-2xl font-bold tracking-tight text-gray-900">Refill Mode</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-100">Refill Mode</h1>
       </motion.div>
 
       <AnimatePresence mode="wait">
@@ -88,28 +88,28 @@ export default function RefillPage() {
             {/* Photorealistic Patch Illustration */}
             <div className="relative w-full aspect-square max-w-[280px] mx-auto mb-8 flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-400/20 to-teal-400/20 rounded-[40px] blur-2xl" />
-              <GlassCard className="w-full h-full rounded-[40px] border-2 border-white/50 flex items-center justify-center relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.05),inset_0_2px_4px_rgba(255,255,255,0.9)] bg-white/20 backdrop-blur-xl">
+              <GlassCard className="w-full h-full rounded-[40px] border-2 border-white/10 flex items-center justify-center relative overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] bg-white/5 backdrop-blur-2xl">
                 {/* Patch Texture */}
                 <div className="absolute inset-0 opacity-10 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
                 
                 {/* Refill Hole (Open) */}
-                <div className="w-24 h-24 rounded-full border-4 border-white/60 shadow-[inset_0_4px_10px_rgba(0,0,0,0.1)] flex items-center justify-center relative bg-white/30 backdrop-blur-md overflow-hidden">
+                <div className="w-24 h-24 rounded-full border-4 border-white/10 shadow-[inset_0_4px_10px_rgba(0,0,0,0.5)] flex items-center justify-center relative bg-white/5 backdrop-blur-md overflow-hidden">
                   {/* Orange Liquid Visible */}
                   <motion.div 
-                    className="absolute bottom-0 w-full bg-gradient-to-t from-purple-400 to-teal-400 opacity-80 rounded-b-full"
+                    className="absolute bottom-0 w-full bg-gradient-to-t from-purple-500 to-teal-400 opacity-80 rounded-b-full"
                     initial={{ height: '20%' }}
                     animate={{ height: '60%' }}
                     transition={{ duration: 2, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
                   />
-                  <div className="absolute inset-0 rounded-full shadow-[inset_0_4px_10px_rgba(0,0,0,0.2)] pointer-events-none" />
-                  <Droplet className="w-8 h-8 text-gray-800 z-10" />
+                  <div className="absolute inset-0 rounded-full shadow-[inset_0_4px_10px_rgba(0,0,0,0.5)] pointer-events-none" />
+                  <Droplet className="w-8 h-8 text-slate-100 z-10" />
                 </div>
               </GlassCard>
             </div>
 
             {/* Multi-select Chips */}
             <div className="mb-6">
-              <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Select Nutrients</h3>
+              <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-3">Select Nutrients</h3>
               <div className="flex flex-wrap gap-2">
                 {nutrientsList.map(n => (
                   <button
@@ -117,13 +117,13 @@ export default function RefillPage() {
                     onClick={() => handleChipToggle(n.id)}
                     className={`px-4 py-2 rounded-full text-xs font-medium transition-all duration-300 border ${
                       selectedChips.includes(n.id) 
-                        ? `bg-[${n.color}]/20 border-[${n.color}]/50 text-gray-900 shadow-[0_0_10px_rgba(255,255,255,0.5)]` 
-                        : 'bg-white/20 border-white/40 text-gray-600 hover:bg-white/40 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]'
+                        ? 'shadow-[0_0_10px_rgba(255,255,255,0.2)]' 
+                        : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05)]'
                     }`}
                     style={{
                       backgroundColor: selectedChips.includes(n.id) ? `${n.color}33` : undefined,
                       borderColor: selectedChips.includes(n.id) ? `${n.color}80` : undefined,
-                      color: selectedChips.includes(n.id) ? '#0f172a' : undefined,
+                      color: selectedChips.includes(n.id) ? '#f8fafc' : undefined,
                     }}
                   >
                     {n.name}
@@ -138,9 +138,9 @@ export default function RefillPage() {
                 <div key={n.id} className="space-y-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium" style={{ color: n.color }}>{n.name}</span>
-                    <span className="text-sm font-bold text-gray-900">{amounts[n.id]?.toFixed(2) || '0.00'} ml</span>
+                    <span className="text-sm font-bold text-slate-100">{amounts[n.id]?.toFixed(2) || '0.00'} ml</span>
                   </div>
-                  <div className="relative h-3 bg-black/5 rounded-full overflow-hidden shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)]">
+                  <div className="relative h-3 bg-white/5 rounded-full overflow-hidden shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]">
                     <motion.div 
                       className="absolute top-0 left-0 h-full rounded-full"
                       style={{ backgroundColor: n.color, width: `${((amounts[n.id] || 0) / 2.0) * 100}%` }}
@@ -156,7 +156,7 @@ export default function RefillPage() {
                       className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
                   </div>
-                  <div className="flex justify-between text-[10px] text-gray-500 font-medium">
+                  <div className="flex justify-between text-[10px] text-slate-500 font-medium">
                     <span>0.0 ml</span>
                     <span>2.0 ml</span>
                   </div>
@@ -185,14 +185,14 @@ export default function RefillPage() {
           >
             <div className="relative w-48 h-48 mb-8">
               {/* Patch Hole Closing Animation */}
-              <GlassCard className="w-full h-full rounded-[40px] border-2 border-purple-400/50 flex items-center justify-center relative overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)] bg-white/20 backdrop-blur-xl">
+              <GlassCard className="w-full h-full rounded-[40px] border-2 border-purple-500/30 flex items-center justify-center relative overflow-hidden shadow-[0_8px_32px_rgba(168,85,247,0.2),inset_0_1px_0_rgba(255,255,255,0.1)] bg-white/5 backdrop-blur-2xl">
                 <motion.div 
-                  className="w-24 h-24 rounded-full border-4 border-purple-500 flex items-center justify-center relative bg-white/40 overflow-hidden"
+                  className="w-24 h-24 rounded-full border-4 border-purple-500/50 flex items-center justify-center relative bg-white/10 overflow-hidden"
                   initial={{ scale: 1 }}
                   animate={{ scale: 0 }}
                   transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-purple-400 to-teal-400 opacity-80" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-purple-500 to-teal-400 opacity-80" />
                 </motion.div>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -200,7 +200,7 @@ export default function RefillPage() {
                   transition={{ delay: 1.8 }}
                   className="absolute inset-0 flex items-center justify-center"
                 >
-                  <CheckCircle2 className="w-16 h-16 text-purple-600" />
+                  <CheckCircle2 className="w-16 h-16 text-purple-400" />
                 </motion.div>
               </GlassCard>
             </div>
@@ -208,7 +208,7 @@ export default function RefillPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-2xl font-bold mb-2 text-purple-600"
+              className="text-2xl font-bold mb-2 text-purple-400"
             >
               Refill Secured
             </motion.h2>
@@ -216,7 +216,7 @@ export default function RefillPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="text-gray-600"
+              className="text-slate-400"
             >
               Starting controlled slow release over 6 hours...
             </motion.p>

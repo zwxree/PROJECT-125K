@@ -18,6 +18,25 @@ export default function DashboardPage() {
   const [countdown, setCountdown] = useState(15);
   const [isAlertSent, setIsAlertSent] = useState(false);
   const [timeSinceAlert, setTimeSinceAlert] = useState(0);
+  const [greeting, setGreeting] = useState('Good morning');
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+
+  // Time-based greeting logic
+  useEffect(() => {
+    setCurrentTime(new Date());
+    const updateGreeting = () => {
+      const hour = new Date().getHours();
+      if (hour < 12) setGreeting('Good morning');
+      else if (hour < 18) setGreeting('Good afternoon');
+      else setGreeting('Good evening');
+    };
+    updateGreeting();
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+      updateGreeting();
+    }, 1000); // Update every second for the clock
+    return () => clearInterval(interval);
+  }, []);
 
   // Countdown timer
   useEffect(() => {
@@ -89,16 +108,21 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center justify-between"
       >
-        <div className="flex items-center gap-2">
-          <span className="font-bold tracking-tight text-xl text-[#1A1A1A]">Project 125k</span>
+        <div className="flex flex-col">
+          <span className="font-bold tracking-tight text-xl text-slate-100">Project 325k</span>
+          {currentTime && (
+            <span className="text-xs text-slate-400 font-medium mt-0.5">
+              {currentTime.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })} • {currentTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 bg-white/30 px-3 py-1.5 rounded-full border border-white/50 backdrop-blur-md shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.05)]">
+          <div className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md shadow-[inset_0_2px_4px_rgba(255,255,255,0.1),0_4px_12px_rgba(0,0,0,0.5)]">
             <div className={`w-2 h-2 rounded-full ${isReleasing ? 'bg-purple-500 shadow-[0_0_8px_#A855F7] animate-pulse' : 'bg-teal-400'}`} />
-            <span className="text-xs font-medium text-gray-800">{isReleasing ? 'Active' : 'Idle'}</span>
+            <span className="text-xs font-medium text-slate-300">{isReleasing ? 'Active' : 'Idle'}</span>
           </div>
-          <div className="w-10 h-10 rounded-full bg-white/30 backdrop-blur-md border border-white/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden">
-            <User className="w-5 h-5 text-gray-700" />
+          <div className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-md border border-white/10 shadow-[inset_0_2px_4px_rgba(255,255,255,0.1),0_4px_12px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden">
+            <User className="w-5 h-5 text-slate-300" />
           </div>
         </div>
       </motion.div>
@@ -111,9 +135,9 @@ export default function DashboardPage() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight text-[#1A1A1A] flex items-center">
-              Good morning, <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#DE6262] to-[#FFB88C] ml-2">
+            <h1 className="text-3xl font-bold tracking-tight text-slate-100 flex items-center">
+              {greeting}, <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-teal-400 ml-2">
                 {profile.name}
               </span>
               <button 
@@ -125,7 +149,7 @@ export default function DashboardPage() {
               </button>
             </h1>
           </div>
-          <div className="bg-[#34D399]/20 text-[#059669] px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase border border-[#34D399]/30">
+          <div className="bg-teal-400/20 text-teal-600 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase border border-teal-400/30">
             Active
           </div>
         </div>
@@ -138,14 +162,14 @@ export default function DashboardPage() {
         transition={{ delay: 0.3 }}
         className="flex justify-center py-4"
       >
-        <div className={`relative w-48 h-48 rounded-full border flex flex-col items-center justify-center bg-white/20 backdrop-blur-xl transition-all duration-500 ${isReleasing ? 'border-purple-300/50 shadow-[0_20px_40px_rgba(168,85,247,0.15),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]' : 'border-white/40 shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]'}`}>
-          <div className={`absolute inset-0 rounded-full border-t-2 animate-spin ${isReleasing ? 'border-purple-500' : 'border-gray-400/30'}`} style={{ animationDuration: isReleasing ? '2s' : '4s' }} />
-          <Wifi className={`w-6 h-6 mb-2 ${isReleasing ? 'text-purple-600' : 'text-gray-500'}`} />
-          <span className="text-sm font-medium text-gray-800">Patch Connected</span>
-          <div className="flex items-center gap-2 mt-2 text-xs text-gray-600">
-            <Battery className="w-3 h-3 text-teal-500" /> {battery}%
+        <div className={`relative w-48 h-48 rounded-full border flex flex-col items-center justify-center bg-white/5 backdrop-blur-2xl transition-all duration-500 ${isReleasing ? 'border-purple-500/30 shadow-[0_8px_32px_rgba(168,85,247,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]' : 'border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]'}`}>
+          <div className={`absolute inset-0 rounded-full border-t-2 animate-spin ${isReleasing ? 'border-purple-500' : 'border-slate-600/50'}`} style={{ animationDuration: isReleasing ? '2s' : '4s' }} />
+          <Wifi className={`w-6 h-6 mb-2 ${isReleasing ? 'text-purple-400' : 'text-slate-400'}`} />
+          <span className="text-sm font-medium text-slate-200">Patch Connected</span>
+          <div className="flex items-center gap-2 mt-2 text-xs text-slate-400">
+            <Battery className="w-3 h-3 text-teal-400" /> {battery}%
           </div>
-          <span className="text-[10px] mt-1 uppercase tracking-wider font-semibold" style={{ color: isReleasing ? '#9333ea' : '#4b5563' }}>
+          <span className="text-[10px] mt-1 uppercase tracking-wider font-semibold" style={{ color: isReleasing ? '#c084fc' : '#94a3b8' }}>
             {isReleasing ? 'Active Drip' : 'Idle'}
           </span>
         </div>
@@ -158,11 +182,11 @@ export default function DashboardPage() {
         transition={{ delay: 0.4 }}
       >
         <GlassCard className="p-5">
-          <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Live Biomarker Feed</h3>
+          <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Live Biomarker Feed</h3>
           <div className="grid grid-cols-2 gap-4">
             {nutrients.map((nutrient) => (
-              <div key={nutrient.id} className="bg-white/30 rounded-2xl p-4 border border-white/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9),0_4px_12px_rgba(0,0,0,0.05)] flex flex-col">
-                <span className="text-xs font-medium text-gray-600 mb-1">{nutrient.name}</span>
+              <div key={nutrient.id} className="bg-white/5 rounded-2xl p-4 border border-white/10 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),0_4px_12px_rgba(0,0,0,0.5)] flex flex-col">
+                <span className="text-xs font-medium text-slate-400 mb-1">{nutrient.name}</span>
                 <div className="flex items-baseline gap-1">
                   <div className="relative overflow-hidden h-8 flex items-center">
                     <AnimatePresence mode="popLayout">
@@ -179,7 +203,7 @@ export default function DashboardPage() {
                       </motion.span>
                     </AnimatePresence>
                   </div>
-                  <span className="text-[10px] text-gray-400">%</span>
+                  <span className="text-[10px] text-slate-500">%</span>
                 </div>
               </div>
             ))}
@@ -193,15 +217,15 @@ export default function DashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
       >
-        <GlassCard className="p-5 border-white/40 bg-gradient-to-br from-pink-200/30 via-purple-200/30 to-cyan-200/30 relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/10 backdrop-blur-md" />
+        <GlassCard className="p-5 border-white/10 bg-gradient-to-br from-pink-500/10 via-purple-500/10 to-cyan-500/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-white/5 backdrop-blur-md" />
           <div className="relative z-10 flex items-start gap-3">
-            <div className="p-2 rounded-full bg-white/40 text-purple-600 shadow-[inset_0_2px_4px_rgba(255,255,255,0.9)]">
+            <div className="p-2 rounded-full bg-white/10 text-purple-400 shadow-[inset_0_2px_4px_rgba(255,255,255,0.1)]">
               <AlertTriangle className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 mb-1">Context-Aware Insight</h3>
-              <p className="text-sm leading-relaxed text-gray-800">
+              <h3 className="text-sm font-semibold text-slate-200 mb-1">Context-Aware Insight</h3>
+              <p className="text-sm leading-relaxed text-slate-400">
                 {aiMessage}
               </p>
             </div>
@@ -240,21 +264,21 @@ export default function DashboardPage() {
               className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]"
               onClick={() => setShowBottomSheet(false)}
             />
-            <motion.div
+              <motion.div
               initial={{ y: '100%' }}
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed bottom-0 left-0 right-0 z-[100] p-6 pb-12 bg-white/40 backdrop-blur-[40px] border-t border-white/60 rounded-t-[40px] shadow-[0_-20px_40px_rgba(0,0,0,0.05),inset_0_2px_4px_rgba(255,255,255,0.9)]"
+              className="fixed bottom-0 left-0 right-0 z-[100] p-6 pb-12 bg-[#0a0a0a]/80 backdrop-blur-[40px] border-t border-white/10 rounded-t-[40px] shadow-[0_-20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
             >
-              <div className="w-12 h-1.5 bg-gray-400/50 rounded-full mx-auto mb-6" />
+              <div className="w-12 h-1.5 bg-slate-600/50 rounded-full mx-auto mb-6" />
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xl font-bold text-gray-900">Physical Security Lock</h3>
-                <button onClick={() => setShowBottomSheet(false)} className="p-2 bg-white/50 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.05)]">
-                  <X className="w-5 h-5 text-gray-700" />
+                <h3 className="text-xl font-bold text-slate-100">Physical Security Lock</h3>
+                <button onClick={() => setShowBottomSheet(false)} className="p-2 bg-white/5 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+                  <X className="w-5 h-5 text-slate-400" />
                 </button>
               </div>
-              <p className="text-gray-700 mb-8 leading-relaxed">
+              <p className="text-slate-400 mb-8 leading-relaxed">
                 Tap physical secure key to phone to authorize 8-hour microneedle release.
               </p>
               <Button 
@@ -277,28 +301,28 @@ export default function DashboardPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className={`fixed inset-0 z-[100] flex flex-col items-center justify-center p-6 backdrop-blur-2xl transition-colors duration-500 ${isAlertSent ? 'bg-white/60' : 'bg-red-500/40'}`}
+            className={`fixed inset-0 z-[100] flex flex-col items-center justify-center p-6 backdrop-blur-3xl transition-colors duration-500 ${isAlertSent ? 'bg-[#0a0a0a]/80' : 'bg-red-900/80'}`}
           >
             {isAlertSent ? (
               <div className="flex flex-col items-center justify-between h-full w-full py-20 animate-in fade-in duration-500">
-                <GlassCard className="p-8 flex flex-col items-center text-center max-w-sm w-full border-white/60 shadow-[0_20px_40px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,0.9)]">
-                  <div className="w-24 h-24 rounded-full bg-green-400/20 flex items-center justify-center mb-6 border border-green-400/50 shadow-[inset_0_2px_4px_rgba(255,255,255,0.8)]">
-                    <CheckCircle className="w-12 h-12 text-green-600" />
+                <GlassCard className="p-8 flex flex-col items-center text-center max-w-sm w-full border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]">
+                  <div className="w-24 h-24 rounded-full bg-green-500/20 flex items-center justify-center mb-6 border border-green-500/30 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]">
+                    <CheckCircle className="w-12 h-12 text-green-400" />
                   </div>
-                  <h2 className="text-3xl font-bold text-gray-900 mb-4 tracking-tight">Alerts Sent</h2>
-                  <p className="text-lg text-gray-700 mb-2 max-w-[280px]">
+                  <h2 className="text-3xl font-bold text-white mb-4 tracking-tight">Alerts Sent</h2>
+                  <p className="text-lg text-gray-300 mb-2 max-w-[280px]">
                     Emergency text alerts with your location have been sent to:
                   </p>
-                  <ul className="text-gray-900 font-medium mb-6 space-y-2">
+                  <ul className="text-gray-200 font-medium mb-6 space-y-2">
                     <li>• Emergency Contacts</li>
                     <li>• 112 Helpline</li>
                   </ul>
-                  <p className="text-xl text-gray-800 font-mono tracking-widest">{formatDuration(timeSinceAlert)}</p>
+                  <p className="text-xl text-gray-400 font-mono tracking-widest">{formatDuration(timeSinceAlert)}</p>
                 </GlassCard>
 
                 <div className="flex flex-col items-center gap-16 mb-10 w-full max-w-sm">
                   <Button
-                    variant="solid-white"
+                    variant="liquid-glass"
                     className="w-full h-14 rounded-full"
                     onClick={() => {
                       if (typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -330,8 +354,8 @@ export default function DashboardPage() {
 
                 <div className="w-full space-y-4">
                   <Button 
-                    variant="solid-white"
-                    className="w-full h-16 text-xl rounded-full text-red-500"
+                    variant="danger"
+                    className="w-full h-16 text-xl rounded-full"
                     onClick={() => {
                       if (typeof navigator !== 'undefined' && navigator.vibrate) {
                         navigator.vibrate([100, 50, 100]);

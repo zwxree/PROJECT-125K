@@ -36,9 +36,9 @@ export const BottomNav = () => {
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className={cn(
           "mx-4 mb-6 flex items-center justify-around rounded-full p-4 pointer-events-auto",
-          "bg-white/20 backdrop-blur-xl",
-          "border border-white/40",
-          "shadow-[0_20px_40px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.6),inset_1px_0_0_rgba(255,255,255,0.4)]"
+          "bg-white/5 backdrop-blur-2xl",
+          "border border-white/10",
+          "shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
         )}
       >
         {navItems.map((item) => {
@@ -53,7 +53,7 @@ export const BottomNav = () => {
                 whileTap={{ scale: 0.8 }}
                 className={cn(
                   "flex flex-col items-center justify-center gap-1",
-                  isActive ? "text-[#1A1A1A]" : "text-[#1A1A1A]/40"
+                  isActive ? "text-white" : "text-gray-500"
                 )}
               >
                 <item.icon size={24} strokeWidth={isActive ? 2.5 : 2} />
@@ -62,7 +62,7 @@ export const BottomNav = () => {
               {isActive && (
                 <motion.div
                   layoutId="nav-indicator"
-                  className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-[#1A1A1A]"
+                  className="absolute -bottom-2 w-1.5 h-1.5 rounded-full bg-white"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
