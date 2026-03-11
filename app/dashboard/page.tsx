@@ -13,7 +13,14 @@ import { toast } from 'sonner';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { isSynced, profile, setNavHidden, isNavHidden } = useStore();
+  const { isSynced, profile, setNavHidden, isNavHidden, isAuthenticated } = useStore();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isAuthenticated, router]);
+
   const { battery, nutrients, aiMessage, isReleasing, startRelease, isFallDetected, resolveFallDetection, schedules, addSchedule, removeSchedule, toggleSchedule } = usePatchStore();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
   const [showScheduleSheet, setShowScheduleSheet] = useState(false);

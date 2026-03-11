@@ -13,19 +13,31 @@ import { toast } from 'sonner';
 
 export default function ProfilePage() {
   const router = useRouter();
-  const { isSynced, profile, hapticsEnabled, notificationsEnabled, fallDetectionEnabled, toggleHaptics, toggleNotifications, toggleFallDetection, disconnectPatch, updateProfile } = useStore();
+  const { isSynced, profile, hapticsEnabled, notificationsEnabled, fallDetectionEnabled, toggleHaptics, toggleNotifications, toggleFallDetection, disconnectPatch, updateProfile, logout, isAuthenticated } = useStore();
   const { emergencyStop, isReleasing, triggerFallDetection } = usePatchStore();
   const { theme, setTheme } = useTheme();
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState(profile);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
     if (!isSynced) {
       router.push('/');
     }
-  }, [isSynced, router]);
+  }, [isSynced, isAuthenticated, router]);
 
   if (!isSynced || !profile || !editedProfile) return null;
+
+  const handleLogout = () => {
+    logout();
+    router.push('/login');
+    toast('Logged Out', {
+      icon: <LogOut className="w-4 h-4 text-slate-400" />,
+    });
+  };
 
   const handleSaveProfile = () => {
     updateProfile(editedProfile);
@@ -325,7 +337,7 @@ export default function ProfilePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="mt-8 pt-4 border-t border-white/10"
+        className="mt-8 pt-4 border-t border-white/10 space-y-3"
       >
         <Button 
           variant="liquid-glass" 
@@ -334,6 +346,14 @@ export default function ProfilePage() {
         >
           <LogOut className="w-5 h-5 mr-2" />
           Disconnect Patch
+        </Button>
+        <Button 
+          variant="liquid-glass" 
+          className="w-full h-14 text-lg rounded-full text-red-400/80 border-red-500/10"
+          onClick={handleLogout}
+        >
+          <LogOut className="w-5 h-5 mr-2" />
+          Logout Account
         </Button>
       </motion.div>
 

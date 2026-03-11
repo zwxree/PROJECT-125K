@@ -43,16 +43,26 @@ const LoadingIcons = () => {
 
 export default function SplashPage() {
   const router = useRouter();
-  const { syncNFC, isSynced, isSyncing, syncError, resetSync } = useStore();
+  const { syncNFC, isSynced, isSyncing, syncError, resetSync, isAuthenticated, isNewUser } = useStore();
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    
+    if (isNewUser) {
+      router.push('/onboarding');
+      return;
+    }
+
     if (isSynced) {
       const timer = setTimeout(() => {
         router.push('/dashboard');
       }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [isSynced, router]);
+  }, [isSynced, isAuthenticated, isNewUser, router]);
 
   const handleConnect = () => {
     syncNFC();

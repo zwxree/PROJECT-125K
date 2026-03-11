@@ -48,7 +48,8 @@ export const BottomNav = () => {
     router.push(path);
   };
 
-  if (pathname === '/') return null; // Don't show on splash screen
+  const hiddenPaths = ['/', '/login', '/onboarding'];
+  if (hiddenPaths.includes(pathname)) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 pb-safe pointer-events-none">

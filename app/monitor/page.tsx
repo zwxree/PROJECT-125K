@@ -10,14 +10,18 @@ import { Activity, TrendingUp, TrendingDown, Info } from 'lucide-react';
 
 export default function MonitorPage() {
   const router = useRouter();
-  const { isSynced } = useStore();
+  const { isSynced, isAuthenticated } = useStore();
   const { nutrients } = usePatchStore();
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
     if (!isSynced) {
       router.push('/');
     }
-  }, [isSynced, router]);
+  }, [isSynced, isAuthenticated, router]);
 
   if (!isSynced) return null;
 

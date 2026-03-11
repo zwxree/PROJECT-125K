@@ -12,7 +12,7 @@ import confetti from 'canvas-confetti';
 
 export default function RefillPage() {
   const router = useRouter();
-  const { isSynced, startRefill, isReleasing, releaseProgress, updateReleaseProgress, completeRelease } = useStore();
+  const { isSynced, startRefill, isReleasing, releaseProgress, updateReleaseProgress, completeRelease, isAuthenticated } = useStore();
   const [amounts, setAmounts] = useState<Record<string, number>>({
     vitD: 0.65,
     iron: 0.4,
@@ -30,10 +30,14 @@ export default function RefillPage() {
   const [selectedPack, setSelectedPack] = useState<{ n: string, price: string, icon: React.ReactNode } | null>(null);
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
     if (!isSynced) {
       router.push('/');
     }
-  }, [isSynced, router]);
+  }, [isSynced, isAuthenticated, router]);
 
   const triggerConfetti = () => {
     const duration = 3 * 1000;

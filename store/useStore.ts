@@ -34,6 +34,8 @@ interface AppState {
   notificationsEnabled: boolean;
   fallDetectionEnabled: boolean;
   isNavHidden: boolean;
+  isAuthenticated: boolean;
+  isNewUser: boolean;
   
   syncNFC: () => Promise<void>;
   resetSync: () => void;
@@ -46,6 +48,9 @@ interface AppState {
   toggleFallDetection: () => void;
   setNavHidden: (hidden: boolean) => void;
   updateProfile: (profile: Partial<UserProfile>) => void;
+  login: (email: string, isNew?: boolean) => void;
+  logout: () => void;
+  completeOnboarding: () => void;
 }
 
 export const useStore = create<AppState>((set) => ({
@@ -66,6 +71,8 @@ export const useStore = create<AppState>((set) => ({
   notificationsEnabled: true,
   fallDetectionEnabled: true,
   isNavHidden: false,
+  isAuthenticated: false,
+  isNewUser: true,
 
   syncNFC: async () => {
     set({ isSyncing: true, syncError: null });
@@ -146,4 +153,14 @@ export const useStore = create<AppState>((set) => ({
       ...newProfile
     }
   })),
+  login: (email, isNew = false) => set({ 
+    isAuthenticated: true, 
+    isNewUser: isNew 
+  }),
+  logout: () => set({ 
+    isAuthenticated: false, 
+    isSynced: false,
+    profile: null 
+  }),
+  completeOnboarding: () => set({ isNewUser: false }),
 }));
