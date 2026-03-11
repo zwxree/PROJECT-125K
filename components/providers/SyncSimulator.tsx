@@ -9,12 +9,32 @@ export default function SyncSimulator() {
     // Generate the initial AI insight based on time/data
     generateInsight();
 
-    // The heartbeat of the app - ticks every 5000ms (5 seconds)
-    const interval = setInterval(() => {
-      syncTick();
-    }, 5000);
+    let lastTime = performance.now();
+    let frameId: number;
 
-    return () => clearInterval(interval);
+    const tick = (currentTime: number) => {
+      const deltaTime = (currentTime - lastTime) / 1000; // Convert to seconds
+      lastTime = currentTime;
+
+      // Only sync if the tab is active to save resources
+      if (document.visibilityState === 'visible') {
+        syncTick(deltaTime);
+      }
+      
+      frameId = requestAnimationFrame(tick);
+    };
+
+    frameId = requestAnimationFrame(tick);
+
+    // AI Insight heartbeat - every 10 seconds
+    const insightInterval = setInterval(() => {
+      generateInsight();
+    }, 10000);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      clearInterval(insightInterval);
+    };
   }, [syncTick, generateInsight]);
 
   return null; // Invisible component, just runs the logic

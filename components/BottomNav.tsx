@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Home, Droplet, Activity, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -11,6 +11,28 @@ export const BottomNav = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { hapticsEnabled, isNavHidden } = useStore();
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show if scrolling up or at the top
+      if (currentScrollY < lastScrollY || currentScrollY < 10) {
+        setIsVisible(true);
+      } 
+      // Hide if scrolling down and passed a threshold
+      else if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        setIsVisible(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const navItems = [
     { name: 'Home', icon: Home, path: '/dashboard' },
@@ -32,7 +54,7 @@ export const BottomNav = () => {
     <div className="fixed bottom-0 left-0 right-0 z-50 pb-safe pointer-events-none">
       <motion.div
         initial={{ y: 100 }}
-        animate={{ y: isNavHidden ? 150 : 0 }}
+        animate={{ y: (isNavHidden || !isVisible) ? 150 : 0 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
         className={cn(
           "mx-4 mb-6 flex items-center justify-around rounded-full p-4 pointer-events-auto",

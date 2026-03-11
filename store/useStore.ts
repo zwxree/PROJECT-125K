@@ -22,6 +22,8 @@ interface NutrientLevel {
 
 interface AppState {
   isSynced: boolean;
+  isSyncing: boolean;
+  syncError: string | null;
   battery: number;
   lastSynced: string;
   profile: UserProfile | null;
@@ -33,7 +35,8 @@ interface AppState {
   fallDetectionEnabled: boolean;
   isNavHidden: boolean;
   
-  syncNFC: () => void;
+  syncNFC: () => Promise<void>;
+  resetSync: () => void;
   disconnectPatch: () => void;
   startRefill: (amounts: Record<string, number>) => void;
   updateReleaseProgress: (progress: number) => void;
@@ -42,10 +45,13 @@ interface AppState {
   toggleNotifications: () => void;
   toggleFallDetection: () => void;
   setNavHidden: (hidden: boolean) => void;
+  updateProfile: (profile: Partial<UserProfile>) => void;
 }
 
 export const useStore = create<AppState>((set) => ({
   isSynced: false,
+  isSyncing: false,
+  syncError: null,
   battery: 87,
   lastSynced: '2 min ago',
   profile: null,
@@ -61,9 +67,24 @@ export const useStore = create<AppState>((set) => ({
   fallDetectionEnabled: true,
   isNavHidden: false,
 
-  syncNFC: () => {
+  syncNFC: async () => {
+    set({ isSyncing: true, syncError: null });
+    
+    // Simulate network/hardware delay
+    await new Promise(resolve => setTimeout(resolve, 2500));
+
+    // 20% chance of failure for simulation
+    if (Math.random() < 0.2) {
+      set({ 
+        isSyncing: false, 
+        syncError: 'Patch Not Found. Ensure NFC is enabled and patch is applied to skin.' 
+      });
+      return;
+    }
+
     set({
       isSynced: true,
+      isSyncing: false,
       profile: {
         name: 'Rahul Sharma',
         abhaId: '14-1234-5678-9012',
@@ -79,9 +100,15 @@ export const useStore = create<AppState>((set) => ({
     });
   },
 
+  resetSync: () => {
+    set({ isSyncing: false, syncError: null });
+  },
+
   disconnectPatch: () => {
     set({
       isSynced: false,
+      isSyncing: false,
+      syncError: null,
       profile: null,
       isReleasing: false,
       releaseProgress: 0,
@@ -113,4 +140,10 @@ export const useStore = create<AppState>((set) => ({
   toggleNotifications: () => set((state) => ({ notificationsEnabled: !state.notificationsEnabled })),
   toggleFallDetection: () => set((state) => ({ fallDetectionEnabled: !state.fallDetectionEnabled })),
   setNavHidden: (hidden) => set({ isNavHidden: hidden }),
+  updateProfile: (newProfile) => set((state) => ({
+    profile: state.profile ? { ...state.profile, ...newProfile } : {
+      name: '', abhaId: '', height: '', weight: '', bloodGroup: '', allergies: '', history: '', meds: '', contact: '',
+      ...newProfile
+    }
+  })),
 }));

@@ -7,23 +7,25 @@ import { useStore } from '@/store/useStore';
 import { usePatchStore } from '@/store/usePatchStore';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
-import { User, Battery, Wifi, AlertTriangle, Zap, X, Siren, Phone, PhoneOff, MicOff, Grid, Volume2, MessageSquare, CheckCircle } from 'lucide-react';
+import { User, Battery, Wifi, AlertTriangle, Zap, X, Siren, Phone, PhoneOff, MicOff, Grid, Volume2, MessageSquare, CheckCircle, Clock, Plus, Trash2 } from 'lucide-react';
 import HistoryChart from '@/components/dashboard/HistoryChart';
+import { toast } from 'sonner';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { isSynced, profile, setNavHidden, isNavHidden } = useStore();
-  const { battery, nutrients, aiMessage, isReleasing, startRelease, isFallDetected, resolveFallDetection } = usePatchStore();
+  const { battery, nutrients, aiMessage, isReleasing, startRelease, isFallDetected, resolveFallDetection, schedules, addSchedule, removeSchedule, toggleSchedule } = usePatchStore();
   const [showBottomSheet, setShowBottomSheet] = useState(false);
+  const [showScheduleSheet, setShowScheduleSheet] = useState(false);
+  const [newSchedule, setNewSchedule] = useState({ nutrientId: 'vitD', time: '08:00', amount: 10 });
   const [countdown, setCountdown] = useState(15);
   const [isAlertSent, setIsAlertSent] = useState(false);
   const [timeSinceAlert, setTimeSinceAlert] = useState(0);
   const [greeting, setGreeting] = useState('Good morning');
-  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+  const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
   // Time-based greeting logic
   useEffect(() => {
-    setCurrentTime(new Date());
     const updateGreeting = () => {
       const hour = new Date().getHours();
       if (hour < 12) setGreeting('Good morning');
@@ -91,6 +93,20 @@ export default function DashboardPage() {
   }, [isSynced, router]);
 
   if (!isSynced || !profile) return null;
+
+  const handleAddSchedule = () => {
+    const nutrient = nutrients.find(n => n.id === newSchedule.nutrientId);
+    if (nutrient) {
+      addSchedule({
+        nutrientId: newSchedule.nutrientId,
+        nutrientName: nutrient.name,
+        time: newSchedule.time,
+        amount: newSchedule.amount
+      });
+      setShowScheduleSheet(false);
+      toast.success('Dosage scheduled successfully');
+    }
+  };
 
   const handleSimulateTap = () => {
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
@@ -175,42 +191,6 @@ export default function DashboardPage() {
         </div>
       </motion.div>
 
-      {/* LIVE BIOMARKER FEED */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
-        <GlassCard className="p-5">
-          <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Live Biomarker Feed</h3>
-          <div className="grid grid-cols-2 gap-4">
-            {nutrients.map((nutrient) => (
-              <div key={nutrient.id} className="bg-white/5 rounded-2xl p-4 border border-white/10 shadow-[inset_0_2px_4px_rgba(255,255,255,0.05),0_4px_12px_rgba(0,0,0,0.5)] flex flex-col">
-                <span className="text-xs font-medium text-slate-400 mb-1">{nutrient.name}</span>
-                <div className="flex items-baseline gap-1">
-                  <div className="relative overflow-hidden h-8 flex items-center">
-                    <AnimatePresence mode="popLayout">
-                      <motion.span
-                        key={nutrient.value}
-                        initial={{ y: isReleasing ? 20 : -20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: isReleasing ? -20 : 20, opacity: 0 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                        className="text-2xl font-mono font-bold tracking-tight inline-block"
-                        style={{ color: nutrient.color }}
-                      >
-                        {nutrient.value.toFixed(2)}
-                      </motion.span>
-                    </AnimatePresence>
-                  </div>
-                  <span className="text-[10px] text-slate-500">%</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </GlassCard>
-      </motion.div>
-
       {/* AI Insight Card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -229,6 +209,59 @@ export default function DashboardPage() {
                 {aiMessage}
               </p>
             </div>
+          </div>
+        </GlassCard>
+      </motion.div>
+
+      {/* Dosage Schedule Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.55 }}
+      >
+        <GlassCard className="p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Dosage Schedule</h3>
+            <button 
+              onClick={() => setShowScheduleSheet(true)}
+              className="p-2 bg-white/5 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+            >
+              <Plus className="w-4 h-4 text-teal-400" />
+            </button>
+          </div>
+          
+          <div className="space-y-3">
+            {schedules.length > 0 ? (
+              schedules.map((schedule) => (
+                <div key={schedule.id} className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-white/5 border border-white/10">
+                      <Clock className="w-4 h-4 text-purple-400" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-slate-200">{schedule.nutrientName}</p>
+                      <p className="text-xs text-slate-500">{schedule.time} • {schedule.amount}mg</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button 
+                      onClick={() => toggleSchedule(schedule.id)}
+                      className={`w-10 h-5 rounded-full relative transition-colors ${schedule.isActive ? 'bg-teal-500/40' : 'bg-slate-700'}`}
+                    >
+                      <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all ${schedule.isActive ? 'right-1' : 'left-1'}`} />
+                    </button>
+                    <button 
+                      onClick={() => removeSchedule(schedule.id)}
+                      className="p-1.5 text-slate-500 hover:text-red-400 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-xs text-slate-500 py-4">No scheduled dosages</p>
+            )}
           </div>
         </GlassCard>
       </motion.div>
@@ -289,6 +322,82 @@ export default function DashboardPage() {
                 <Wifi className="w-5 h-5 mr-2" />
                 Simulate Tap
               </Button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Schedule Dosage Sheet */}
+      <AnimatePresence>
+        {showScheduleSheet && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90]"
+              onClick={() => setShowScheduleSheet(false)}
+            />
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="fixed bottom-0 left-0 right-0 z-[100] p-6 pb-12 bg-[#0a0a0a]/90 backdrop-blur-[40px] border-t border-white/10 rounded-t-[40px] shadow-[0_-20px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
+            >
+              <div className="w-12 h-1.5 bg-slate-600/50 rounded-full mx-auto mb-6" />
+              <div className="flex justify-between items-center mb-6">
+                <h3 className="text-xl font-bold text-slate-100">Schedule Dosage</h3>
+                <button onClick={() => setShowScheduleSheet(false)} className="p-2 bg-white/5 rounded-full">
+                  <X className="w-5 h-5 text-slate-400" />
+                </button>
+              </div>
+              
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Select Nutrient</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {nutrients.map((n) => (
+                      <button
+                        key={n.id}
+                        onClick={() => setNewSchedule({ ...newSchedule, nutrientId: n.id })}
+                        className={`p-3 rounded-xl border transition-all text-sm font-medium ${newSchedule.nutrientId === n.id ? 'bg-purple-500/20 border-purple-500/50 text-purple-400' : 'bg-white/5 border-white/10 text-slate-400'}`}
+                      >
+                        {n.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Time</label>
+                    <input 
+                      type="time" 
+                      value={newSchedule.time}
+                      onChange={(e) => setNewSchedule({ ...newSchedule, time: e.target.value })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-purple-500/50"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Amount (mg)</label>
+                    <input 
+                      type="number" 
+                      value={newSchedule.amount}
+                      onChange={(e) => setNewSchedule({ ...newSchedule, amount: parseInt(e.target.value) || 0 })}
+                      className="w-full bg-white/5 border border-white/10 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-purple-500/50"
+                    />
+                  </div>
+                </div>
+
+                <Button 
+                  variant="liquid-purple"
+                  className="w-full h-14 text-lg rounded-full mt-4"
+                  onClick={handleAddSchedule}
+                >
+                  Confirm Schedule
+                </Button>
+              </div>
             </motion.div>
           </>
         )}
